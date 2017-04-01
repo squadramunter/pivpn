@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# PiVPN: Trivial OpenVPN setup and configuration
-# Easiest setup and mangement of OpenVPN on Kali Linux
+# Easiest setup and mangement of OpenVPN on Debian
 # https://squadrasec.nl
 #
 # Install with this command (from your Debian):
