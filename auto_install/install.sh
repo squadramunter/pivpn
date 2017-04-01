@@ -69,55 +69,6 @@ else
     fi
 fi
 
-# Next see if we are on a tested and supported OS
-function noOS_Support() {
-    whiptail --msgbox --backtitle "INVALID OS DETECTED" --title "Invalid OS" "We have not been able to detect a supported OS.
-Currently this installer supports Raspbian jessie, Ubuntu 14.04 (trusty), and Ubuntu 16.04 (xenial).
-If you think you received this message in error, you can post an issue on the GitHub at https://github.com/pivpn/pivpn/issues." ${r} ${c}
-    exit 1
-}
-
-function maybeOS_Support() {
-    if (whiptail --backtitle "Not Supported OS" --title "Not Supported OS" --yesno "You are on an OS that we have not tested but MAY work.
-                Currently this installer supports Raspbian jessie, Ubuntu 14.04 (trusty), and Ubuntu 16.04 (xenial).
-                Would you like to continue anyway?" ${r} ${c}) then
-                echo "::: Did not detect perfectly supported OS but,"
-                echo "::: Continuing installation at user's own risk..."
-            else
-                echo "::: Exiting due to unsupported OS"
-                exit 1
-            fi
-}
-
-# if lsb_release command is on their system
-if hash lsb_release 2>/dev/null; then
-    PLAT=$(lsb_release -si)
-    OSCN=$(lsb_release -sc) # We want this to be trusty xenial or jessie
-
-    if [[ $PLAT == "Ubuntu" || $PLAT == "Raspbian" || $PLAT == "Debian" ]]; then
-        if [[ $OSCN != "trusty" && $OSCN != "xenial" && $OSCN != "jessie" ]]; then
-            maybeOS_Support
-        fi
-    else
-        noOS_Support
-    fi
-# else get info from os-release
-elif grep -q debian /etc/os-release; then
-    if grep -q jessie /etc/os-release; then
-        PLAT="Raspbian"
-        OSCN="jessie"
-    else
-        PLAT="Ubuntu"
-        OSCN="unknown"
-        maybeOS_Support
-    fi
-# else we prob don't want to install
-else
-    noOS_Support
-fi
-
-echo "${PLAT}" > /tmp/DET_PLATFORM
-
 ####### FUNCTIONS ##########
 spinner()
 {
