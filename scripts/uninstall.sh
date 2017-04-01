@@ -134,7 +134,7 @@ function askreboot() {
 echo "::: Preparing to remove packages, be sure that each may be safely removed depending on your operating system."
 echo "::: (SAFE TO REMOVE ALL ON RASPBIAN)"
 while true; do
-    read -rp "::: Do you wish to completely remove PiVPN configuration and installed packages from your system? (You will be prompted for each package) [y/n]: " yn
+    read -rp "::: Do you wish to completely remove SquadraVPN configuration and installed packages from your system? (You will be prompted for each package) [y/n]: " yn
     case $yn in
         [Yy]* ) removeAll; askreboot; break;;
 
