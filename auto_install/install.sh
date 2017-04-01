@@ -85,7 +85,7 @@ spinner()
 
 welcomeDialogs() {
     # Display the welcome dialog
-    whiptail --msgbox --backtitle "Welcome" --title "DebianVPN Automated Installer" "This installer will transform your Debian Linux into an OpenVPN server!" ${r} ${c}
+    whiptail --msgbox --backtitle "Welcome" --title "SquadraVPN Automated Installer" "This installer will transform your Debian Linux into an OpenVPN server!" ${r} ${c}
 
     # Explain the need for a static address
     whiptail --msgbox --backtitle "Initiating network interface" --title "Static IP Needed" "Debian Linux is a SERVER so it needs a STATIC IP ADDRESS to function properly.
@@ -490,10 +490,10 @@ checkForDependencies() {
     echo " done!"
     echo ":::"
     if [[ $updatesToInstall -eq "0" ]]; then
-        echo "::: Your kali is up to date! Continuing with Kalivpn installation..."
+        echo "::: Your system is up to date! Continuing with SquadraVPN installation..."
     else
-        echo "::: There are $updatesToInstall updates availible for your pi!"
-        echo "::: We recommend you run 'sudo apt-get upgrade' after installing Kalivpn! "
+        echo "::: There are $updatesToInstall updates availible for your system!"
+        echo "::: We recommend you run 'sudo apt-get upgrade' after installing SquadraVPN! "
         echo ":::"
     fi
     echo ":::"
@@ -644,6 +644,13 @@ setClientDNS() {
             OVPNDNS1="8.8.8.8"
             OVPNDNS2="8.8.4.4"
             # These are already in the file
+            ;;
+        ComodoDNS)
+            echo "::: Using ComodoDNS servers."
+            OVPNDNS1="8.26.56.26"
+            OVPNDNS2="8.20.247.20"
+            $SUDO sed -i '0,/\(dhcp-option DNS \)/ s/\(dhcp-option DNS \).*/\1'${OVPNDNS1}'\"/' /etc/openvpn/server.conf
+            $SUDO sed -i '0,/\(dhcp-option DNS \)/! s/\(dhcp-option DNS \).*/\1'${OVPNDNS2}'\"/' /etc/openvpn/server.conf
             ;;
         OpenDNS)
             echo "::: Using OpenDNS servers."
