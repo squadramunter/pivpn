@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # PiVPN: Trivial OpenVPN setup and configuration
-# Easiest setup and mangement of OpenVPN on Raspberry Pi
-# http://pivpn.io
-# Heavily adapted from the pi-hole.net project and...
-# https://github.com/StarshipEngineer/OpenVPN-Setup/
+# Easiest setup and mangement of OpenVPN on Kali Linux
+# https://squadrasec.nl
 #
-# Install with this command (from your Pi):
+# Install with this command (from your Debian):
 #
-# curl -L https://install.pivpn.io | bash
+# curl -L https://dl.squadrasec.nl/openvpn-setup | bash
 # Make sure you have `curl` installed
 
 
@@ -87,10 +85,10 @@ spinner()
 
 welcomeDialogs() {
     # Display the welcome dialog
-    whiptail --msgbox --backtitle "Welcome" --title "PiVPN Automated Installer" "This installer will transform your Raspberry Pi into an OpenVPN server!" ${r} ${c}
+    whiptail --msgbox --backtitle "Welcome" --title "DebianVPN Automated Installer" "This installer will transform your Debian Linux into an OpenVPN server!" ${r} ${c}
 
     # Explain the need for a static address
-    whiptail --msgbox --backtitle "Initiating network interface" --title "Static IP Needed" "The PiVPN is a SERVER so it needs a STATIC IP ADDRESS to function properly.
+    whiptail --msgbox --backtitle "Initiating network interface" --title "Static IP Needed" "Debian Linux is a SERVER so it needs a STATIC IP ADDRESS to function properly.
 
 In the next section, you can choose to use your current network settings (DHCP) or to manually edit them." ${r} ${c}
 }
@@ -171,7 +169,7 @@ verifyFreeDiskSpace() {
         echo "::: Insufficient Disk Space!"
         echo "::: Your system appears to be low on disk space. PiVPN recommends a minimum of $required_free_kilobytes KiloBytes."
         echo "::: You only have ${existing_free_kilobytes} KiloBytes free."
-        echo "::: If this is a new install on a Raspberry Pi you may need to expand your disk."
+        echo "::: If this is a new install on a Kali Linux you may need to expand your disk."
         echo "::: Try running 'sudo raspi-config', and choose the 'expand file system option'"
         echo "::: After rebooting, run this installation again. (curl -L https://install.pivpn.io | bash)"
 
@@ -226,7 +224,7 @@ chooseInterface() {
 
 avoidStaticIPv4Ubuntu() {
     # If we are in Ubuntu then they need to have previously set their network, so just use what you have.
-    whiptail --msgbox --backtitle "IP Information" --title "IP Information" "Since we think you are not using Raspbian, we will not configure a static IP for you.
+    whiptail --msgbox --backtitle "IP Information" --title "IP Information" "Since we think you are using Debian, we will not configure a static IP for you.
 If you are in Amazon then you can not configure a static IP anyway. Just ensure before this installer started you had set an elastic IP on your instance." ${r} ${c}
 }
 
@@ -492,10 +490,10 @@ checkForDependencies() {
     echo " done!"
     echo ":::"
     if [[ $updatesToInstall -eq "0" ]]; then
-        echo "::: Your pi is up to date! Continuing with PiVPN installation..."
+        echo "::: Your kali is up to date! Continuing with Kalivpn installation..."
     else
         echo "::: There are $updatesToInstall updates availible for your pi!"
-        echo "::: We recommend you run 'sudo apt-get upgrade' after installing PiVPN! "
+        echo "::: We recommend you run 'sudo apt-get upgrade' after installing Kalivpn! "
         echo ":::"
     fi
     echo ":::"
@@ -786,7 +784,7 @@ echo "${String}" | $SUDO tee /etc/openvpn/easy-rsa/vars >/dev/null
     # Build the server
     ${SUDOE} ./easyrsa build-server-full server nopass
 
-    if ([ "$ENCRYPT" -ge "4096" ] && whiptail --backtitle "Setup OpenVPN" --title "Download Diffie-Hellman Parameters" --yesno --defaultno "Download Diffie-Hellman parameters from a public DH parameter generation service?\n\nGenerating DH parameters for a $ENCRYPT-bit key can take many hours on a Raspberry Pi. You can instead download DH parameters from \"2 Ton Digital\" that are generated at regular intervals as part of a public service. Downloaded DH parameters will be randomly selected from a pool of the last 128 generated.\nMore information about this service can be found here: https://2ton.com.au/dhtool/\n\nIf you're paranoid, choose 'No' and Diffie-Hellman parameters will be generated on your device." ${r} ${c})
+    if ([ "$ENCRYPT" -ge "4096" ] && whiptail --backtitle "Setup OpenVPN" --title "Download Diffie-Hellman Parameters" --yesno --defaultno "Download Diffie-Hellman parameters from a public DH parameter generation service?\n\nGenerating DH parameters for a $ENCRYPT-bit key can take many hours on a Kali Linux. You can instead download DH parameters from \"2 Ton Digital\" that are generated at regular intervals as part of a public service. Downloaded DH parameters will be randomly selected from a pool of the last 128 generated.\nMore information about this service can be found here: https://2ton.com.au/dhtool/\n\nIf you're paranoid, choose 'No' and Diffie-Hellman parameters will be generated on your device." ${r} ${c})
 then
     # Downloading parameters
     RANDOM_INDEX=$(( RANDOM % 128 ))
@@ -1034,4 +1032,4 @@ $SUDO mv ${tmpLog} ${instalLogLoc}
 
 displayFinalMessage
 
-echo "::: Install Complete..."
+echo "::: Install Complete... | SquadraSec :::"
