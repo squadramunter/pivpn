@@ -628,7 +628,8 @@ setCustomPort() {
 
 setClientDNS() {
     DNSChoseCmd=(whiptail --separate-output --radiolist "Select the DNS Provider for your VPN Clients. To use your own, select Custom." ${r} ${c} 6)
-    DNSChooseOptions=(Google "" on
+    DNSChooseOptions=(Google "" off
+            ComodoDNS "" on
             OpenDNS "" off
             Level3 "" off
             DNS.WATCH "" off
